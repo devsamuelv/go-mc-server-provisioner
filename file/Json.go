@@ -1,27 +1,27 @@
 package file
 
 import (
+	"encoding/json"
 	"fmt"
-	"os"
 	"io/ioutil"
 	"main/types"
-	"encoding/json"
+	"os"
 )
 
 // ReadConfigFile Reads the Server Config File
-func ReadConfigFile(file string) ([]string) {
-	var data types.DriveConfig;
-	jsonFile, err := os.Open(file);
+func ReadConfigFile(file string) types.Config {
+	var data types.Config
+	jsonFile, err := os.Open(file)
 
 	if err != nil {
-		fmt.Println(err);
+		fmt.Println(err)
 	}
 
-	defer jsonFile.Close();
+	defer jsonFile.Close()
 
-	byteValue, _ := ioutil.ReadAll(jsonFile);
+	byteValue, _ := ioutil.ReadAll(jsonFile)
 
-	json.Unmarshal(byteValue, &data);
+	json.Unmarshal(byteValue, &data)
 
-	return data.Drives;
+	return data
 }

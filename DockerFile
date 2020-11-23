@@ -1,0 +1,4 @@
+FROM ubuntu
+
+SHELL [ "executable" ]
+RUN CMD ["sh", "-c", "/app"]

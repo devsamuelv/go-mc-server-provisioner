@@ -1,8 +1,10 @@
 package commands
 
 import (
-	"github.com/gofiber/fiber/v2"
 	"context"
+	"time"
+
+	"github.com/gofiber/fiber/v2"
 )
 
 func CreateDrive(app *fiber.App) {
@@ -10,7 +12,7 @@ func CreateDrive(app *fiber.App) {
 	defer cancel()
 
 	app.Post("/-server/CreateDrive", func(c *fiber.Ctx) error {
-		
+		return ctx.Err()
 	})
 
 }

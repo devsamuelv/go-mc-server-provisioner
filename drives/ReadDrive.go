@@ -21,14 +21,18 @@ const (
 
 // ReadSpace Read Drive Space
 func ReadSpace(name string) (info types.DiskStatus) {
-	var stat syscall.Statfs_t;
+	var stat syscall.Statfs_t
 
-	wd := name;
+	wd := name
 
-	syscall.Statfs(wd, &stat);
+	err := syscall.Statfs(wd, &stat)
 
-	info.Free = stat.Bavail * uint64(stat.Bsize);
-	info.All = stat.Blocks * uint64(stat.Bsize);
+	if err != nil {
+		panic("Drive " + name + " Doesn't Exist!")
+	}
+
+	info.Free = stat.Bavail * uint64(stat.Bsize)
+	info.All = stat.Blocks * uint64(stat.Bsize)
 
 	return info
 }

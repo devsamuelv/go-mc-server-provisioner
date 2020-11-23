@@ -1,8 +1,8 @@
 package util
 
 import (
-	"log"
 	"fmt"
+	"log"
 )
 
 // PrintError Prints An Error Message
@@ -13,4 +13,9 @@ func PrintError(data string) {
 // PrintInfo Prints An Info Message
 func PrintInfo(data string) {
 	fmt.Println("[INFO]: " + data)
+}
+
+// PrintInit Prints Program Init Info
+func PrintInit(name string, data string) {
+	fmt.Println("[" + name + "]: " + data)
 }
