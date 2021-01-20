@@ -2,9 +2,12 @@ package main
 
 import (
 	"fmt"
+	"main/commands"
 	"main/drives"
 	"main/file"
 	"main/util"
+	"os"
+	"os/exec"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -16,10 +19,41 @@ func main() {
 		Prefork: true,
 	})
 
-	fmt.Print("=== Storage Server Online ===")
+	if configInfo.DB.Key == "" || configInfo.DB.URL == "" {
+		panic("Please Enter db Credentials")
+	}
 
-	util.PrintInit("db url", configInfo.Db.URL)
-	util.PrintInit("db username", configInfo.Db.Username)
+	if configInfo.MountedLocation == "" {
+		cmd := exec.Command("/bin/sh", "-c", "mkdir Mounted")
+		cmd.Start()
+
+		path, err := os.Getwd()
+
+		if err != nil {
+			fmt.Printf("[ERROR] %s \n", err)
+		}
+
+		path += "/Mounted"
+
+		configInfo.MountedLocation = path
+		file.WriteConfigFile(".config.json", string(`"mounted_location": "",`), string(`"mounted_location": "`+path+`",`))
+
+		fmt.Printf("[INFO] Mounted Location Set Defualt To %s \n", path)
+	}
+
+	if PORT == "" {
+		PORT = "8545"
+	}
+
+	fmt.Print("=== Storage Server Online === \n")
+
+	// SECTION Request Commands
+	commands.GetDrives(server)
+	commands.CreateDrive(server)
+	commands.DisableDrive(server)
+	// !SECTION
+
+	util.PrintInit("db url", configInfo.DB.URL)
 	util.PrintInit("Server Port", configInfo.Server.Port)
 	util.PrintInit("Server Public Key", configInfo.Cert.Public)
 

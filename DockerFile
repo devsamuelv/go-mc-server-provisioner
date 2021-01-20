@@ -1,4 +1,4 @@
 FROM ubuntu
 
 SHELL [ "executable" ]
-RUN CMD ["sh", "-c", "/app"]
+RUN CMD ["sh", "-c", "./server"]
